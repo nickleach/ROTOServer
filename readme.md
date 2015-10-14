@@ -30,7 +30,7 @@ Example success (Code 201 - Created):
 
 ```json
 {
-  "message": 'User Created!'
+  "message": "User Created!"
 }
 ```
 Example Failure (Code 422 - Unprocessable Entity):
@@ -43,7 +43,7 @@ Example Failure (Code 422 - Unprocessable Entity):
 
 #### Logging In with an Existing User
 
-**Route:** `POST /users/login`
+**Route:** `POST admin/users/login`
 
 **Params:**
 
