@@ -26,4 +26,49 @@ an 'Access-Token' header along with the request.
 
 Note that usernames must be unique
 
+Example success (Code 201 - Created):
 
+```json
+{
+  "message": 'User Created!'
+}
+```
+Example Failure (Code 422 - Unprocessable Entity):
+
+```json
+{
+  "message": "A user with that username already exists."
+}
+```
+
+#### Logging In with an Existing User
+
+**Route:** `POST /users/login`
+
+**Params:**
+
+| Parameter | Type   |
+| --------- | ------ |
+| Username  | String |
+| Password  | String |
+
+Example Success (Code 200 - OK) - Same as Created JSON
+
+Example Failure (Code 401 - Unauthorized)
+
+```json
+{
+  "message": "Authentication failed. Wrong password."
+}
+```
+Or
+
+```json
+{
+  "message": "Authentication failed. User not found."
+}
+```
+### Band Members
+
+
+### Shows
