@@ -52,7 +52,15 @@ Example Failure (Code 422 - Unprocessable Entity):
 | Username  | String |
 | Password  | String |
 
-Example Success (Code 200 - OK) - Same as Created JSON
+Example Success (Code 200 - OK)
+
+```json
+{
+  "success": true,
+  "message": "Enjoy your token!",
+  "token"  : bgo2k3jt32kljj2224t92ti2412
+}
+```
 
 Example Failure (Code 401 - Unauthorized)
 

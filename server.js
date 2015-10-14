@@ -37,8 +37,8 @@ app.use(express.static(__dirname + '/public'));
 // ROUTES FOR OUR API =================
 // ====================================
 // API ROUTES ------------------------
-var apiRoutes = require('./server/routes/api')(app, express);
-app.use('/api', apiRoutes);
+var apiRoutes = require('./server/routes/admin')(app, express);
+app.use('/admin', apiRoutes);
 
 // MAIN CATCHALL ROUTE ---------------
 // SEND USERS TO FRONTEND ------------
