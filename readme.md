@@ -68,7 +68,47 @@ Or
   "message": "Authentication failed. User not found."
 }
 ```
+###Getting a Single User
+
+**Route:** `GET admin/users/:user_id`
+
+##Editing an Existing User
+
+**Route:** `PUT admin/users/:user_id`
+
+**Params:**
+
+| Parameter |  Type  |
+| --------- |  ----  |
+|  Password | String |
+|  Name     | String |
+|  Username | String |
+
+Example Success (Code 200 -OK):
+
+```json
+{
+  "message" : "User updated"
+}
+```
+
+##Deleting an Existing User
+
+**Route:** `DELETE admin/users/:user_id`
+
+**Params:** None.
+
+Example Success (Code 200 -OK):
+
+```json
+{
+  "message" : "Succesfully Deleted"
+}
+```
+
+
 ### Band Members
+
 
 
 ### Shows

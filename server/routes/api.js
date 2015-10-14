@@ -1,10 +1,12 @@
-var bodyParser = require('body-parser');
-var User     = require('../models/user'),
+var bodyParser = require('body-parser'),
+    User     = require('../models/user'),
     jwt      = require('jsonwebtoken'),
     config   = require('../../config'),
     superSecret = config.secret,
     Show     = require('../models/shows'),
     Member   =  require('../models/member');
+
+
     module.exports = function(app, express){
       // get an instance of the express router
 var apiRouter = express.Router();
