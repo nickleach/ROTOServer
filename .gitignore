@@ -1,0 +1,5 @@
+.DS_Store
+node_modules
+.divshot-cache
+clientId.js
+config.js
