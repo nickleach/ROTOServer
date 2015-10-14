@@ -58,7 +58,7 @@ Example Success (Code 200 - OK)
 {
   "success": true,
   "message": "Enjoy your token!",
-  "token"  : bgo2k3jt32kljj2224t92ti2412
+  "token"  : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoibmF0ZSIsInVzZXJuYW1lIjoibmF0ZSIsImlhdCI6MTQ0NDg1MTcxNSwiZXhwIjoxNDQ0OTM4MTE1fQ.9kOJEZb_f7HZ8RgmqbPwhDXALx2TDR1fH5lzPtlGzcA"
 }
 ```
 
