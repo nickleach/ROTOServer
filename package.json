@@ -10,7 +10,7 @@
     "node": "0.12.x",
     "npm": "2.7.x"
   },
-  "author": "",
+  "author": "\"nick leach\"",
   "license": "ISC",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
