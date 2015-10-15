@@ -38,7 +38,10 @@ app.use(express.static(__dirname + '/public'));
 // ====================================
 // API ROUTES ------------------------
 var apiRoutes = require('./server/routes/admin')(app, express);
+var memberRoutes = require('./server/routes/apiMember')(app, express);
 app.use('/admin', apiRoutes);
+app.use('/api', memberRoutes);
+
 
 // MAIN CATCHALL ROUTE ---------------
 // SEND USERS TO FRONTEND ------------

@@ -2,18 +2,17 @@ var bodyParser = require('body-parser'),
     User     = require('../models/user'),
     jwt      = require('jsonwebtoken'),
     config   = require('../../config'),
-    superSecret = config.secret,
-    Show     = require('../models/shows'),
-    Member   =  require('../models/member');
+    superSecret = config.secret;
+
 
 
 module.exports = function(app, express){
       // get an instance of the express router
-  var apiRouter = express.Router();
+  var adminRouter = express.Router();
 
 
   // logging in users
-  apiRouter.post('/login', function(req,res){
+  adminRouter.post('/login', function(req,res){
     console.log(req.body.username);
     //find the user
     //select the name username and password explicitly
@@ -60,7 +59,7 @@ module.exports = function(app, express){
   });
 
 
-apiRouter.route('/users')
+adminRouter.route('/users')
 
   .post(function(req, res){
     //create a new instance of the user model
@@ -89,7 +88,7 @@ apiRouter.route('/users')
 
 //middleware to use for all requrests
 
-apiRouter.use(function (req, res, next){
+adminRouter.use(function (req, res, next){
 
   //logging
   console.log("someone just came to our app!");
@@ -126,13 +125,13 @@ apiRouter.use(function (req, res, next){
   }
 });
 
-apiRouter.get('/', function(req, res){
+adminRouter.get('/', function(req, res){
   res.json({ message: 'hooray! welcome to our api!'});
 });
 
 //more routes here
 
-apiRouter.route('/users')
+adminRouter.route('/users')
 
 
   .get(function(req, res){
@@ -145,7 +144,7 @@ apiRouter.route('/users')
 
   });
 
-  apiRouter.route('/users/:user_id')
+  adminRouter.route('/users/:user_id')
 
     //get the user with that id
     .get(function(req, res){
@@ -196,9 +195,9 @@ apiRouter.route('/users')
 
     });
       // api endpoint to get user information
-    apiRouter.get('/me', function(req, res) {
+    adminRouter.get('/me', function(req, res) {
       res.send(req.decoded);
     });
 
-    return apiRouter;
+    return adminRouter;
   };

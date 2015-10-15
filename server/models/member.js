@@ -6,7 +6,7 @@ var MemberSchema  = new Schema({
   name: { type: String, required: true, index: {unique: true}},
   description: String,
   instrument: String,
-  description: String
+  image: String
 });
 
 module.exports = mongoose.model('Member', MemberSchema);
