@@ -1,10 +1,337 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title></title>
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/style.css">
+  <title>ROTO Server</title>
 </head>
 <body>
-  <h1>ROTO's API</h1>
-  <h5>nothing to see here... move along</h5>
+<h2>Role of the Observer&#39;s Server</h2>
+
+<blockquote>
+<p>Server for my band&#39;s website.</p>
+</blockquote>
+
+<ul>
+<li>Currently running on: https://floating-shelf-4330.herokuapp.com/</li>
+</ul>
+
+<p>Routes in the User Registration section are authenticated
+by Username/Password unless otherwise mentioned.</p>
+
+<p>Routes elsewhere in the app other than GET requests are authenticated by passing
+an &#39;Access-Token&#39; header along with the request.</p>
+
+<h3>User Registration &amp; Auth</h3>
+
+<h4>Creating a User</h4>
+
+<p><strong>Route:</strong> <code>POST admin/users</code></p>
+
+<p><strong>Params:</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Password</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Username</td>
+<td>String</td>
+</tr>
+</tbody></table>
+
+<p>Note that usernames must be unique</p>
+
+<p>Example success (Code 201 - Created):</p>
+
+<pre><code class="json">{
+  &quot;message&quot;: &quot;User Created!&quot;
+}
+</code></pre>
+
+<p>Example Failure (Code 422 - Unprocessable Entity):</p>
+
+<pre><code class="json">{
+  &quot;message&quot;: &quot;A user with that username already exists.&quot;
+}
+</code></pre>
+
+<h4>Logging In with an Existing User</h4>
+
+<p><strong>Route:</strong> <code>POST admin/users/login</code></p>
+
+<p><strong>Params:</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Username</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Password</td>
+<td>String</td>
+</tr>
+</tbody></table>
+
+<p>Example Success (Code 200 - OK)</p>
+
+<pre><code class="json">{
+  &quot;success&quot;: true,
+  &quot;message&quot;: &quot;Enjoy your token!&quot;,
+  &quot;token&quot;  : &quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoibmF0ZSIsInVzZXJuYW1lIjoibmF0ZSIsImlhdCI6MTQ0NDg1MTcxNSwiZXhwIjoxNDQ0OTM4MTE1fQ.9kOJEZb_f7HZ8RgmqbPwhDXALx2TDR1fH5lzPtlGzcA&quot;
+}
+</code></pre>
+
+<p>Example Failure (Code 401 - Unauthorized)</p>
+
+<pre><code class="json">{
+  &quot;message&quot;: &quot;Authentication failed. Wrong password.&quot;
+}
+</code></pre>
+
+<p>Or</p>
+
+<pre><code class="json">{
+  &quot;message&quot;: &quot;Authentication failed. User not found.&quot;
+}
+</code></pre>
+
+<h5>Getting a Single User</h5>
+
+<p><strong>Route:</strong> <code>GET admin/users/:user_id</code></p>
+
+<h4>Editing an Existing User</h4>
+
+<p><strong>Route:</strong> <code>PUT admin/users/:user_id</code></p>
+
+<p><strong>Params:</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Password</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Username</td>
+<td>String</td>
+</tr>
+</tbody></table>
+
+<p>Example Success (Code 200 -OK):</p>
+
+<pre><code class="json">{
+  &quot;message&quot; : &quot;User updated&quot;
+}
+</code></pre>
+
+<h4>Deleting an Existing User</h4>
+
+<p><strong>Route:</strong> <code>DELETE admin/users/:user_id</code></p>
+
+<p><strong>Params:</strong> None.</p>
+
+<p>Example Success (Code 200 -OK):</p>
+
+<pre><code class="json">{
+  &quot;message&quot; : &quot;Succesfully Deleted&quot;
+}
+</code></pre>
+
+<h3>Band Members</h3>
+
+<h3>Getting All Members</h3>
+
+<p><strong>Route</strong> <code>GET api/members</code></p>
+
+<h4>Creating a Member</h4>
+
+<p><strong>Route:</strong> <code>POST api/members</code></p>
+
+<p><strong>Params:</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Name</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Instrument</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Image</td>
+<td>String</td>
+</tr>
+</tbody></table>
+
+<p>Note that names must be unique</p>
+
+<p>Example success (Code 201 - Created):</p>
+
+<pre><code class="json">{
+  &quot;message&quot;: &quot;Member Created!&quot;
+}
+</code></pre>
+
+<p>Example Failure (Code 422 - Unprocessable Entity):</p>
+
+<pre><code class="json">{
+  &quot;message&quot;: &quot;A member with that name already exists.&quot;
+}
+</code></pre>
+
+<h5>Getting a Single Member</h5>
+
+<p><strong>Route:</strong> <code>GET api/members/:member_id</code></p>
+
+<h4>Editing an Existing Member</h4>
+
+<p><strong>Route:</strong> <code>PUT api/members/:member_id</code></p>
+
+<p><strong>Params:</strong> Same as creation</p>
+
+<p>Example Success (Code 200 -OK):</p>
+
+<pre><code class="json">{
+  &quot;message&quot; : &quot;Member updated&quot;
+}
+</code></pre>
+
+<h4>Deleting an Existing Member</h4>
+
+<p><strong>Route:</strong> <code>DELETE api/members/:member_id</code></p>
+
+<p><strong>Params:</strong> None.</p>
+
+<p>Example Success (Code 200 -OK):</p>
+
+<pre><code class="json">{
+  &quot;message&quot; : &quot;Succesfully Deleted&quot;
+}
+</code></pre>
+
+<h3>Shows</h3>
+
+<h4>Getting All Shows</h4>
+
+<p><strong>Route</strong> <code>GET api/shows</code></p>
+
+<h4>Creating a Shows</h4>
+
+<p><strong>Route:</strong> <code>POST api/shows</code></p>
+
+<p><strong>Params:</strong></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Title</td>
+<td>String</td>
+</tr>
+<tr>
+<td><em>Description</em></td>
+<td>String</td>
+</tr>
+<tr>
+<td>Location</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>DateTime</td>
+</tr>
+<tr>
+<td>Upcoming</td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td>Venue</td>
+<td>String</td>
+</tr>
+</tbody></table>
+
+<p>Note that titles must be unique</p>
+
+<p>Example success (Code 201 - Created):</p>
+
+<pre><code class="json">{
+  &quot;message&quot;: &quot;Show Created!&quot;
+}
+</code></pre>
+
+<p>Example Failure (Code 422 - Unprocessable Entity):</p>
+
+<pre><code class="json">{
+  &quot;message&quot;: &quot;A show with that title already exists.&quot;
+}
+</code></pre>
+
+<h4>Getting a Single Show</h4>
+
+<p><strong>Route:</strong> <code>GET api/shows/:show_id</code></p>
+
+<h4>Editing an Existing Show</h4>
+
+<p><strong>Route:</strong> <code>PUT api/shows/:show_id</code></p>
+
+<p><strong>Params:</strong> Same as creation</p>
+
+<p>Example Success (Code 200 -OK):</p>
+
+<pre><code class="json">{
+  &quot;message&quot; : &quot;Show updated&quot;
+}
+</code></pre>
+
+<h4>Deleting an Existing Show</h4>
+
+<p><strong>Route:</strong> <code>DELETE api/shows/:show_id</code></p>
+
+<p><strong>Params:</strong> None.</p>
+
+<p>Example Success (Code 200 -OK):</p>
+
+<pre><code class="json">{
+  &quot;message&quot; : &quot;Succesfully Deleted&quot;
+}
+</code></pre>
+
 </body>
 </html>
