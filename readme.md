@@ -2,7 +2,7 @@
 
 > Server for my band's website.
 
-* No current deployment
+* Currently running on: https://floating-shelf-4330.herokuapp.com/
 
 Routes in the User Registration section are authenticated
 by Username/Password unless otherwise mentioned.
