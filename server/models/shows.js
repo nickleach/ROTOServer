@@ -3,10 +3,12 @@ var mongoose    = require('mongoose'),
     bcrypt      = require('bcrypt-nodejs');
 
 var ShowSchema  = new Schema({
-  name: { type: String, required: true, index: {unique: true}},
+  title: { type: String, required: true, index: {unique: true}},
   date: { type: Date, required: true},
   location: { type: String, required: true},
-  description: String
+  venue: { type: String, required: true},
+  description: String,
+  upcoming: { type: Boolean, required: true}
 });
 
 module.exports = mongoose.model('Show', ShowSchema);
