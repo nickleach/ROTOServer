@@ -76,11 +76,11 @@ Or
   "message": "Authentication failed. User not found."
 }
 ```
-###Getting a Single User
+#####Getting a Single User
 
 **Route:** `GET admin/users/:user_id`
 
-##Editing an Existing User
+####Editing an Existing User
 
 **Route:** `PUT admin/users/:user_id`
 
@@ -100,7 +100,7 @@ Example Success (Code 200 -OK):
 }
 ```
 
-##Deleting an Existing User
+####Deleting an Existing User
 
 **Route:** `DELETE admin/users/:user_id`
 
@@ -151,11 +151,11 @@ Example Failure (Code 422 - Unprocessable Entity):
   "message": "A member with that name already exists."
 }
 ```
-###Getting a Single Member
+#####Getting a Single Member
 
 **Route:** `GET api/members/:member_id`
 
-##Editing an Existing Member
+####Editing an Existing Member
 
 **Route:** `PUT api/members/:member_id`
 
@@ -169,7 +169,7 @@ Example Success (Code 200 -OK):
 }
 ```
 
-##Deleting an Existing Member
+####Deleting an Existing Member
 
 **Route:** `DELETE api/members/:member_id`
 
@@ -185,7 +185,7 @@ Example Success (Code 200 -OK):
 
 ### Shows
 
-### Getting All Shows
+#### Getting All Shows
 
 **Route** `GET api/members`
 
@@ -221,11 +221,11 @@ Example Failure (Code 422 - Unprocessable Entity):
   "message": "A member with that name already exists."
 }
 ```
-###Getting a Single Member
+####Getting a Single Member
 
 **Route:** `GET api/members/:member_id`
 
-##Editing an Existing Member
+####Editing an Existing Member
 
 **Route:** `PUT api/members/:member_id`
 
@@ -239,7 +239,7 @@ Example Success (Code 200 -OK):
 }
 ```
 
-##Deleting an Existing Member
+####Deleting an Existing Member
 
 **Route:** `DELETE api/members/:member_id`
 
