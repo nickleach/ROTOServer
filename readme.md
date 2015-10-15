@@ -7,7 +7,7 @@
 Routes in the User Registration section are authenticated
 by Username/Password unless otherwise mentioned.
 
-Routes elsewhere in the app are authenticated by passing
+Routes elsewhere in the app other than GET requests are authenticated by passing
 an 'Access-Token' header along with the request.
 
 ### User Registration & Auth
@@ -117,6 +117,138 @@ Example Success (Code 200 -OK):
 
 ### Band Members
 
+### Getting All Members
 
+**Route** `GET api/members`
+
+#### Creating a Member
+
+**Route:** `POST api/members`
+
+**Params:**
+
+| Parameter    |  Type  |
+| ---------    |  ----  |
+|  Name        | String |
+|  Description | String |
+|  Instrument  | String |
+|  Image       | String |
+
+
+Note that names must be unique
+
+Example success (Code 201 - Created):
+
+```json
+{
+  "message": "Member Created!"
+}
+```
+Example Failure (Code 422 - Unprocessable Entity):
+
+```json
+{
+  "message": "A member with that name already exists."
+}
+```
+###Getting a Single Member
+
+**Route:** `GET api/members/:member_id`
+
+##Editing an Existing Member
+
+**Route:** `PUT api/members/:member_id`
+
+**Params:** Same as creation
+
+Example Success (Code 200 -OK):
+
+```json
+{
+  "message" : "Member updated"
+}
+```
+
+##Deleting an Existing Member
+
+**Route:** `DELETE api/members/:member_id`
+
+**Params:** None.
+
+Example Success (Code 200 -OK):
+
+```json
+{
+  "message" : "Succesfully Deleted"
+}
+```
 
 ### Shows
+
+### Getting All Shows
+
+**Route** `GET api/members`
+
+#### Creating a Member
+
+**Route:** `POST api/members`
+
+**Params:**
+
+| Parameter      |  Type    |
+| ---------      |  ----    |
+|  Title         | String   |
+|  *Description* | String   |
+|  Location      | String   |
+|  Date          | DateTime |
+|  Upcoming      | Boolean  |
+|  Venue         | String   |
+
+
+Note that names must be unique
+
+Example success (Code 201 - Created):
+
+```json
+{
+  "message": "Member Created!"
+}
+```
+Example Failure (Code 422 - Unprocessable Entity):
+
+```json
+{
+  "message": "A member with that name already exists."
+}
+```
+###Getting a Single Member
+
+**Route:** `GET api/members/:member_id`
+
+##Editing an Existing Member
+
+**Route:** `PUT api/members/:member_id`
+
+**Params:** Same as creation
+
+Example Success (Code 200 -OK):
+
+```json
+{
+  "message" : "Member updated"
+}
+```
+
+##Deleting an Existing Member
+
+**Route:** `DELETE api/members/:member_id`
+
+**Params:** None.
+
+Example Success (Code 200 -OK):
+
+```json
+{
+  "message" : "Succesfully Deleted"
+}
+```
