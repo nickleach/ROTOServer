@@ -187,11 +187,11 @@ Example Success (Code 200 -OK):
 
 #### Getting All Shows
 
-**Route** `GET api/members`
+**Route** `GET api/shows`
 
-#### Creating a Member
+#### Creating a Shows
 
-**Route:** `POST api/members`
+**Route:** `POST api/shows`
 
 **Params:**
 
@@ -205,29 +205,29 @@ Example Success (Code 200 -OK):
 |  Venue         | String   |
 
 
-Note that names must be unique
+Note that titles must be unique
 
 Example success (Code 201 - Created):
 
 ```json
 {
-  "message": "Member Created!"
+  "message": "Show Created!"
 }
 ```
 Example Failure (Code 422 - Unprocessable Entity):
 
 ```json
 {
-  "message": "A member with that name already exists."
+  "message": "A show with that title already exists."
 }
 ```
-####Getting a Single Member
+####Getting a Single Show
 
-**Route:** `GET api/members/:member_id`
+**Route:** `GET api/shows/:show_id`
 
-####Editing an Existing Member
+####Editing an Existing Show
 
-**Route:** `PUT api/members/:member_id`
+**Route:** `PUT api/shows/:show_id`
 
 **Params:** Same as creation
 
@@ -235,13 +235,13 @@ Example Success (Code 200 -OK):
 
 ```json
 {
-  "message" : "Member updated"
+  "message" : "Show updated"
 }
 ```
 
-####Deleting an Existing Member
+####Deleting an Existing Show
 
-**Route:** `DELETE api/members/:member_id`
+**Route:** `DELETE api/shows/:show_id`
 
 **Params:** None.
 
