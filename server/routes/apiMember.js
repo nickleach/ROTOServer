@@ -22,6 +22,19 @@ var bodyParser = require('body-parser'),
         })
 
       });
+    memberRouter.route('/members/:member_id')
+
+      .get(function(req, res){
+
+        Member.findById(req.params.member_id, function(err, member){
+
+          if(err) res.send(err);
+
+          res.json(member);
+
+        });
+
+      });
 
     memberRouter.use(function(req, res, next){
 
@@ -76,18 +89,6 @@ var bodyParser = require('body-parser'),
 
 
     memberRouter.route('/members/:member_id')
-
-      .get(function(req, res){
-
-        Member.findById(req.params.member_id, function(err, member){
-
-          if(err) res.send(err);
-
-          res.json(member);
-
-        });
-
-      })
 
 
       .put(function(req, res){
