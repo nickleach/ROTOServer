@@ -73,7 +73,7 @@ var bodyParser = require('body-parser'),
 
     memberRouter.route('/members')
 
-      .post(function(req, res){
+      .post(function(req, res, next){
         // create new member
         var member = new Member();
         member.name = req.body.name;
@@ -87,7 +87,7 @@ var bodyParser = require('body-parser'),
             if(err.code == 11000)
               return res.json({ sucess: false, message:"A member with that name already exists"})
             else
-              return res.send(err);
+              return next(err);
           }
 
             res.json({message: 'Member Created!'})
@@ -98,11 +98,18 @@ var bodyParser = require('body-parser'),
     memberRouter.route('/members/:member_id')
 
 
-      .put(function(req, res){
+      .put(function(req, res, next){
 
         Member.findById(req.params.member_id, function(err, member){
 
-          if(err) res.send(err);
+          if(err) {
+            next(err);
+          };
+          if(!member) {
+            var notFound = new Error("Could not find member");
+            notFound.status = 404;
+            return next(notFound);
+          }
 
           if(req.body.name) member.name = req.body.name;
           if(req.body.description) member.description = req.body.description;
@@ -110,7 +117,7 @@ var bodyParser = require('body-parser'),
           if(req.body.instrument) member.instrument = req.body.instrument;
 
           member.save(function(err){
-            if(err) res.send(err);
+            if(err) { next(err) }
 
             res.json({messsage: "Member Updated!"});
 
@@ -119,13 +126,20 @@ var bodyParser = require('body-parser'),
         });
 
       })
-      .delete(function(req, res){
+      .delete(function(req, res, next){
         Member.remove({
           _id: req.params.member_id
         },
 
-        function(err, user){
-          if(err) return res.send(err);
+        function(err, member){
+          if(err) {
+            next(err);
+          }
+          if(!member){
+            var notFound = new Error("Could not find member");
+            notFound.status = 404;
+            return next(notFound);
+          }
 
           res.json({ message: 'Successfully deleted'});
         });
