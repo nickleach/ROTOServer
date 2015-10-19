@@ -24,11 +24,18 @@ var bodyParser = require('body-parser'),
       });
     memberRouter.route('/members/:member_id')
 
-      .get(function(req, res){
+      .get(function(req, res, next){
 
         Member.findById(req.params.member_id, function(err, member){
+          if (err) {
+            next(err);
 
-          if(err) res.send(err);
+          }
+          if(!member){
+            var notFound = new Error("Could not find member");
+            notFound.status = 404;
+            return next(notFound);
+          }
 
           res.json(member);
 

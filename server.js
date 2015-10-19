@@ -11,6 +11,7 @@ var mongoose   = require('mongoose');
 var config     = require('./config');
 var path       = require('path');
 
+
 // APP CONFIGURATION ==================
 // ====================================
 // use body parser so we can grab information from POST requests
@@ -24,6 +25,7 @@ app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
   next();
 });
+
 
 app.use(cors());
 // log all requests to the console
@@ -47,13 +49,34 @@ app.use('/admin', apiRoutes);
 app.use('/api', memberRoutes);
 app.use('/api', showRoutes);
 
+app.use(function(err, req, res, next) {
+  if(err.status !== 404) {
+    return next();
+  }
+
+  res.status(404);
+  res.send(err.message || 'Not found');
+});
+
+
+app.use(function(err, req, res, next) {
+
+  res.status(500);
+  res.send('oops! something broke');
+});
 
 // MAIN CATCHALL ROUTE ---------------
 // SEND USERS TO FRONTEND ------------
 // has to be registered after API ROUTES
-app.get('*', function(req, res) {
+app.get('*', function(req, res, err) {
+
   res.sendFile(path.join(__dirname + '/app/index.html'));
+
 });
+
+
+
+
 
 app.listen(config.port);
 console.log('Magic happens on port ' + config.port);
