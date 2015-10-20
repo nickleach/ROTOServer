@@ -11,11 +11,13 @@ var bodyParser = require('body-parser'),
 
     showRouter.route('/shows')
 
-      .get(function(req, res){
+      .get(function(req, res, next){
 
         Show.find(function(err, shows){
 
-          if (err) res.send(err);
+          if (err) {
+            next(err);
+          };
 
           res.json(shows);
 
@@ -23,7 +25,7 @@ var bodyParser = require('body-parser'),
 
       });
 
-    showRouter.use(function(req, res, next){
+    showRouter.use('/shows/:show_id', function(req, res, next){
 
       //log
       console.log("admin accessing shows");
@@ -53,7 +55,7 @@ var bodyParser = require('body-parser'),
 
     showRouter.route('/shows')
 
-      .post(function(req, res){
+      .post(function(req, res, next){
         // create new show
         var show = new Show();
         show.title= req.body.title;
@@ -66,10 +68,14 @@ var bodyParser = require('body-parser'),
 
         show.save(function(err){
           if(err){
-            if(err.code == 11000)
-              return res.json({ sucess: false, message:"A show with that name already exists"})
-            else
-              return res.send(err);
+            if(err.code == 11000){
+              var showExists = new Error("A show with that title already exists");
+              showExists.status = 500;
+              return next(showExists);
+            }
+            else{
+              return next(err);
+            }
           }
 
             res.json({message: 'show Created!'})
@@ -79,11 +85,19 @@ var bodyParser = require('body-parser'),
 
     showRouter.route('/shows/:show_id')
 
-      .get(function(req, res){
+      .get(function(req, res, next){
 
         Show.findById(req.params.show_id, function(err, show){
 
-          if(err) res.send(err);
+          if(err){
+            next(err);
+          }
+          if (!show) {
+            var notFound = new Error("Could not find member");
+            notFound.status = 404;
+            return next(notFound);
+          }
+
 
           res.json(show);
 
@@ -92,11 +106,18 @@ var bodyParser = require('body-parser'),
       })
 
 
-      .put(function(req, res){
+      .put(function(req, res, next){
 
         Show.findById(req.params.show_id, function(err, show){
 
-          if(err) res.send(err);
+          if(err) {
+            next(err);
+          }
+          if(!show) {
+            var notFound = new Error("Could not find show");
+            notFound.status = 404;
+            return next(notFound);
+          }
 
         if(req.body.name) show.title = req.body.title;
         if(req.body.date) show.date = req.body.date;
@@ -106,7 +127,9 @@ var bodyParser = require('body-parser'),
         if(req.body.upcoming) show.upcoming = req.body.upcoming;
 
           show.save(function(err){
-            if(err) res.send(err);
+            if(err){
+              next(err);
+            }
 
             res.json({messsage: "Show Updated!"});
 
@@ -115,13 +138,21 @@ var bodyParser = require('body-parser'),
         });
 
       })
-      .delete(function(req, res){
+      .delete(function(req, res, next){
         Show.remove({
           _id: req.params.show_id
         },
 
         function(err, show){
-          if(err) return res.send(err);
+          if(err) {
+           next(err);
+          }
+          if(!show) {
+            var notFound = new Error("Could not find show");
+            notFound.status = 404;
+            return next(notFound);
+          }
+
 
           res.json({ message: 'Successfully deleted'});
         });

@@ -51,7 +51,7 @@ app.use('/api', showRoutes);
 
 app.use(function(err, req, res, next) {
   if(err.status !== 404) {
-    return next();
+    return next(err);
   }
 
   res.status(404);
@@ -61,8 +61,9 @@ app.use(function(err, req, res, next) {
 
 app.use(function(err, req, res, next) {
 
+  console.log('Internal server error')
   res.status(500);
-  res.send('oops! something broke');
+  res.send(err.message || 'oops! something broke');
 });
 
 // MAIN CATCHALL ROUTE ---------------

@@ -11,11 +11,13 @@ var bodyParser = require('body-parser'),
 
     memberRouter.route('/members')
 
-      .get(function(req, res){
+      .get(function(req, res, next){
 
         Member.find(function(err, members){
 
-          if (err) res.send(err);
+          if (err) {
+            return next(err);
+          }
 
           res.json(members);
 
@@ -27,10 +29,11 @@ var bodyParser = require('body-parser'),
       .get(function(req, res, next){
 
         Member.findById(req.params.member_id, function(err, member){
+
           if (err) {
             next(err);
-
           }
+
           if(!member){
             var notFound = new Error("Could not find member");
             notFound.status = 404;
@@ -43,7 +46,7 @@ var bodyParser = require('body-parser'),
 
       });
 
-    memberRouter.use(function(req, res, next){
+    memberRouter.use('/members/:member_id', function(req, res, next){
 
       //log
       console.log("admin accessing members");
@@ -84,8 +87,11 @@ var bodyParser = require('body-parser'),
 
         member.save(function(err){
           if(err){
-            if(err.code == 11000)
-              return res.json({ sucess: false, message:"A member with that name already exists"})
+            if(err.code == 11000){
+              var memberExists = new Error("You've already created that dude!");
+              memberExists.status = 500;
+              return next(memberExists);
+              }
             else
               return next(err);
           }
@@ -104,7 +110,8 @@ var bodyParser = require('body-parser'),
 
           if(err) {
             next(err);
-          };
+          }
+
           if(!member) {
             var notFound = new Error("Could not find member");
             notFound.status = 404;
@@ -117,7 +124,9 @@ var bodyParser = require('body-parser'),
           if(req.body.instrument) member.instrument = req.body.instrument;
 
           member.save(function(err){
-            if(err) { next(err) }
+            if(err) {
+              next(err)
+            }
 
             res.json({messsage: "Member Updated!"});
 
@@ -127,14 +136,18 @@ var bodyParser = require('body-parser'),
 
       })
       .delete(function(req, res, next){
+
         Member.remove({
           _id: req.params.member_id
         },
 
+
         function(err, member){
+
           if(err) {
             next(err);
           }
+
           if(!member){
             var notFound = new Error("Could not find member");
             notFound.status = 404;
@@ -142,6 +155,7 @@ var bodyParser = require('body-parser'),
           }
 
           res.json({ message: 'Successfully deleted'});
+
         });
 
 
