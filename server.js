@@ -10,6 +10,7 @@ var morgan     = require('morgan');     // used to see requests
 var mongoose   = require('mongoose');
 var config     = require('./config');
 var path       = require('path');
+var moment     = require('moment');
 
 
 // APP CONFIGURATION ==================

@@ -2,7 +2,8 @@ var bodyParser = require('body-parser'),
     jwt      = require('jsonwebtoken'),
     config   = require('../../config'),
     superSecret = config.secret,
-    Show   =  require('../models/shows');
+    Show   =  require('../models/shows'),
+    moment = require('moment');
 
   module.exports = function(app, express){
 
@@ -58,18 +59,19 @@ var bodyParser = require('body-parser'),
       .post(function(req, res, next){
         // create new show
         var show = new Show();
-        show.title= req.body.title;
-        show.date = req.body.date;
+        show.date = moment(req.body.date).format("MMM Do YYYY");
         show.location = req.body.location;
         show.description = req.body.description;
         show.venue = req.body.venue;
-        show.upcoming = req.body.upcoming;
+        show.time = req.body.time;
+        show.upcoming = moment().isBefore(req.body.date);
+
         //save and check for errors
 
         show.save(function(err){
           if(err){
             if(err.code == 11000){
-              var showExists = new Error("A show with that title already exists");
+              var showExists = new Error("A show with that date already exists");
               showExists.status = 500;
               return next(showExists);
             }
@@ -119,12 +121,13 @@ var bodyParser = require('body-parser'),
             return next(notFound);
           }
 
-        if(req.body.name) show.title = req.body.title;
-        if(req.body.date) show.date = req.body.date;
+        if(req.body.date) {
+          show.date =  show.date = moment(req.body.date).format("MMM Do YYYY");
+          show.upcoming = moment().isBefore(req.body.date);
+        }
         if(req.body.location) show.location = req.body.location;
         if(req.body.description) show.description = req.body.description;
         if(req.body.venue) show.venue = req.body.venue;
-        if(req.body.upcoming) show.upcoming = req.body.upcoming;
 
           show.save(function(err){
             if(err){
