@@ -3,7 +3,7 @@ var mongoose    = require('mongoose'),
     bcrypt      = require('bcrypt-nodejs');
 
 var ShowSchema  = new Schema({
-  date: { type: String, required: true, index: {unique: true}},
+  date: { type: Number, required: true, index: {unique: true}},
   location: { type: String, required: true},
   venue: { type: String, required: true},
   description: String,

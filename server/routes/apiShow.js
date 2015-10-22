@@ -13,7 +13,7 @@ var bodyParser = require('body-parser'),
     showRouter.route('/shows')
 
       .get(function(req, res, next){
-
+        console.log("Getting Shows");
         Show.find(function(err, shows){
 
           if (err) {
@@ -59,13 +59,14 @@ var bodyParser = require('body-parser'),
       .post(function(req, res, next){
         // create new show
         var show = new Show();
-        show.date = moment(req.body.date).format("MMM Do YYYY");
+        show.date = moment(req.body.date).unix();
         show.location = req.body.location;
         show.description = req.body.description;
         show.venue = req.body.venue;
         show.time = req.body.time;
         show.upcoming = moment().isBefore(req.body.date);
 
+        console.log("Making a new show: " + show);
         //save and check for errors
 
         show.save(function(err){
@@ -79,8 +80,11 @@ var bodyParser = require('body-parser'),
               return next(err);
             }
           }
-
-            res.json({message: 'show Created!'})
+            console.log("Show Created!");
+            res.json({
+              message: 'show Created!',
+              created: show
+            });
         })
       });
 
@@ -111,8 +115,9 @@ var bodyParser = require('body-parser'),
       .put(function(req, res, next){
 
         Show.findById(req.params.show_id, function(err, show){
-
+          console.log("Updating Show.")
           if(err) {
+            console.log("Error found" + err);
             next(err);
           }
           if(!show) {
@@ -122,7 +127,7 @@ var bodyParser = require('body-parser'),
           }
 
         if(req.body.date) {
-          show.date =  show.date = moment(req.body.date).format("MMM Do YYYY");
+          show.date = moment(req.body.date).unix();
           show.upcoming = moment().isBefore(req.body.date);
         }
         if(req.body.location) show.location = req.body.location;
@@ -134,7 +139,14 @@ var bodyParser = require('body-parser'),
               next(err);
             }
 
-            res.json({messsage: "Show Updated!"});
+            res.json([
+              {
+                message: "Show Updated!"
+              },
+              {
+                updated: show
+              }
+            ]);
 
           });
 
