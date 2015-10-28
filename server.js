@@ -45,10 +45,12 @@ app.use(express.static(__dirname + '/public'));
 var apiRoutes = require('./server/routes/admin')(app, express);
 var memberRoutes = require('./server/routes/apiMember')(app, express);
 var showRoutes = require('./server/routes/apiShow')(app, express);
+var newsRoutes = require('./server/routes/apiNews')(app, express);
 
 app.use('/admin', apiRoutes);
 app.use('/api', memberRoutes);
 app.use('/api', showRoutes);
+app.use('/api', newsRoutes);
 
 app.use(function(err, req, res, next) {
   if(err.status !== 404) {
