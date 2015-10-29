@@ -48,32 +48,6 @@ module.exports = function(app, express){
 
       });
 
-    newsRouter.use('/news/:news_id', function(req, res, next){
-
-      console.log("admin accessing news");
-
-            //check header or url params or post params for token
-      var token = req.body.token || req.param('token') || req.headers['x-access-token'];
-
-      //decode token
-      if(token){
-        jwt.verify(token, superSecret, function(err, decoded){
-          if(err){
-            return res.status(403).send({
-              success: false,
-              message: "Failed to authenticate token"
-            });
-          }else{
-            req.decoded = decoded;
-
-            next();
-
-          }
-
-        });
-      }
-
-    });
     newsRouter.use('/news', function(req, res, next){
 
       console.log("admin accessing news");
@@ -126,6 +100,88 @@ module.exports = function(app, express){
             res.json({message: "News Created!"})
         })
 
+      });
+
+    newsRouter.use('/news/:news_id', function(req, res, next){
+
+      console.log("admin accessing news");
+
+            //check header or url params or post params for token
+      var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+
+      //decode token
+      if(token){
+        jwt.verify(token, superSecret, function(err, decoded){
+          if(err){
+            return res.status(403).send({
+              success: false,
+              message: "Failed to authenticate token"
+            });
+          }else{
+            req.decoded = decoded;
+
+            next();
+
+          }
+
+        });
+      }
+
+    });
+
+    newsRouter.route('/news/:news_id')
+
+      .put(function(req, res, next){
+        News.findById(req.params.news_id, function(err, news){
+          console.log("Updating news.")
+          if(err){
+            console.log("Error found " + err);
+            next(err);
+          }
+          if(!news) {
+            var notFound = new Error("Could not find news.");
+            notFound.status = 404;
+            return next(notFound);
+          }
+
+        if(req.body.title)  news.title = req.body.title;
+        if(req.body.story)  news.story = req.body.story;
+        if(req.body.modifiedBy) news.modifiedBy = req.body.modifiedBy;
+
+          news.save(function(err){
+            if(err){
+              next(err);
+            }
+
+            res.json({
+              message:"News Updated!",
+              updated: news
+            });
+
+          });
+
+        });
+
+      })
+
+      .delete(function(req, res, next){
+        News.remove({
+          _id: req.params.news_id
+        },
+
+        function(err, news){
+          if(err) {
+           next(err);
+          }
+          if(!news) {
+            var notFound = new Error("Could not find news");
+            notFound.status = 404;
+            return next(notFound);
+          }
+
+
+          res.json({ message: 'Successfully deleted'});
+        });
       });
 
   return newsRouter;
